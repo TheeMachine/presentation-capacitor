@@ -1,3 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.machine.thee.presentation">
+
+    <application>
+        <activity
+            android:name=".SecondaryDisplay"
+            android:usesCleartextTraffic="true"
+            android:exported="false"
+            tools:ignore="Instantiatable"
+            tools:targetApi="m">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+    </application>
+
 </manifest>

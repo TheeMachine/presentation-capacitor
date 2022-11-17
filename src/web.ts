@@ -10,4 +10,10 @@ export class CapacitorPresentationWeb
     console.log('ECHO', options);
     return options;
   }
+
+  async openLink(options: { url: string }): Promise<{ url: string }> {
+    this.notifyListeners("onFailLoadUrl", options);
+    this.notifyListeners("onSuccessLoadUrl", options);
+    return options;
+  }
 }

@@ -14,6 +14,10 @@ npx cap sync
 <docgen-index>
 
 * [`echo(...)`](#echo)
+* [`openLink(...)`](#openlink)
+* [`addListener('onSuccessLoadUrl', ...)`](#addlisteneronsuccessloadurl)
+* [`addListener('onFailLoadUrl', ...)`](#addlisteneronfailloadurl)
+* [Interfaces](#interfaces)
 
 </docgen-index>
 
@@ -33,5 +37,62 @@ echo(options: { value: string; }) => Promise<{ value: string; }>
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
 --------------------
+
+
+### openLink(...)
+
+```typescript
+openLink(options: { url: string; }) => Promise<{ url: string; }>
+```
+
+| Param         | Type                          |
+| ------------- | ----------------------------- |
+| **`options`** | <code>{ url: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ url: string; }&gt;</code>
+
+--------------------
+
+
+### addListener('onSuccessLoadUrl', ...)
+
+```typescript
+addListener(eventName: 'onSuccessLoadUrl', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+| Param              | Type                                |
+| ------------------ | ----------------------------------- |
+| **`eventName`**    | <code>'onSuccessLoadUrl'</code>     |
+| **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### addListener('onFailLoadUrl', ...)
+
+```typescript
+addListener(eventName: 'onFailLoadUrl', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+```
+
+| Param              | Type                                |
+| ------------------ | ----------------------------------- |
+| **`eventName`**    | <code>'onFailLoadUrl'</code>        |
+| **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### Interfaces
+
+
+#### PluginListenerHandle
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 </docgen-api>
