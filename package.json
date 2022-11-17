@@ -15,10 +15,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https:/.git"
+    "url": "https://github.com/TheeMachine/presentation-capacitor"
   },
+  "readme": "https://github.com/TheeMachine/presentation-capacitor#readme",
   "bugs": {
-    "url": "https://issues"
+    "url": "https://github.com/TheeMachine/presentation-capacitor/issues"
   },
   "keywords": [
     "capacitor",
