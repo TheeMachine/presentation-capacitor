@@ -13,10 +13,10 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
 * [`openLink(...)`](#openlink)
 * [`addListener('onSuccessLoadUrl', ...)`](#addlisteneronsuccessloadurl)
 * [`addListener('onFailLoadUrl', ...)`](#addlisteneronfailloadurl)
+* [`getDisplays()`](#getdisplays)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -24,32 +24,17 @@ npx cap sync
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
-
-```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
-```
-
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
-
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
-
---------------------
-
-
 ### openLink(...)
 
 ```typescript
-openLink(options: { url: string; }) => Promise<{ url: string; }>
+openLink(options: { url: string; }) => Promise<{ success?: any; error?: any; url?: any; }>
 ```
 
 | Param         | Type                          |
 | ------------- | ----------------------------- |
 | **`options`** | <code>{ url: string; }</code> |
 
-**Returns:** <code>Promise&lt;{ url: string; }&gt;</code>
+**Returns:** <code>Promise&lt;{ success?: any; error?: any; url?: any; }&gt;</code>
 
 --------------------
 
@@ -82,6 +67,17 @@ addListener(eventName: 'onFailLoadUrl', listenerFunc: (data: any) => void) => Pr
 | **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+--------------------
+
+
+### getDisplays()
+
+```typescript
+getDisplays() => Promise<{ displays: number; }>
+```
+
+**Returns:** <code>Promise&lt;{ displays: number; }&gt;</code>
 
 --------------------
 

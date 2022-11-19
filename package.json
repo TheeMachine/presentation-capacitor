@@ -1,6 +1,6 @@
 {
   "name": "presentation-capacitor",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Capacitor Plugin for presentation api",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -24,7 +24,11 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "presentation",
+    "presentation api",
+    "presentation api android",
+    "second screen presentation"
   ],
   "scripts": {
     "verify": "npm run verify:android && npm run verify:web",

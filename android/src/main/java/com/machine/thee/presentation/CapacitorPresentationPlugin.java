@@ -34,38 +34,53 @@ public class CapacitorPresentationPlugin extends Plugin {
         JSObject ret = new JSObject();
         ret.put("url", url);
         new Handler(Looper.getMainLooper())
-                .post(
-                        () -> {
-                            displayManager = (DisplayManager) getActivity().getSystemService(Context.DISPLAY_SERVICE);
-                            Log.d("CapacitorPresentation", String.valueOf(displayManager));
-                            if (displayManager != null) {
-                                presentationDisplays = displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION);
-                                if (presentationDisplays.length > 0) {
-                                    Log.d("presentationDisplays", String.valueOf(presentationDisplays[0]));
-                                    SecondaryDisplay secondaryDisplay = new SecondaryDisplay(getContext(), presentationDisplays[0]);
-                                    secondaryDisplay.loadUrl(url);
-                                    Log.d("-> SecondaryDisplay", "Çalışıyor...");
-                                    secondaryDisplay.show();
-                                }
-                            }
+            .post(
+                () -> {
+                    displayManager = (DisplayManager) getActivity().getSystemService(Context.DISPLAY_SERVICE);
+                    if (displayManager != null) {
+                        presentationDisplays = displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION);
+                        if (presentationDisplays.length > 0) {
+                            Log.d("presentationDisplays", String.valueOf(presentationDisplays[0]));
+                            SecondaryDisplay secondaryDisplay = new SecondaryDisplay(getContext(), presentationDisplays[0]);
+                            secondaryDisplay.loadUrl(url);
+                            Log.d("-> SecondaryDisplay", "Çalışıyor...");
+                            secondaryDisplay.show();
                         }
-                );
+                    }
+                }
+            );
 
         call.resolve(ret);
     }
-
 
     public void notifyToSuccess(WebView view, String url) {
         JSObject response = new JSObject();
         response.put("url", url);
         response.put("message", "success");
-        notifyListeners(SUCCESS_CALL_BACK,response, true );
+        notifyListeners(SUCCESS_CALL_BACK, response, true);
     }
 
     public void notifyToFail(WebView view, int errorCode) {
         JSObject response = new JSObject();
         response.put("url", errorCode);
         response.put("message", "fail");
-        notifyListeners(FAIL_CALL_BACK,response, true );
+        notifyListeners(FAIL_CALL_BACK, response, true);
+    }
+
+    @PluginMethod
+    public void getDisplays(PluginCall call) {
+
+        displayManager = (DisplayManager) getActivity().getSystemService(Context.DISPLAY_SERVICE);
+        JSObject response = new JSObject();
+        int displays = 0;
+
+        if (displayManager != null) {
+
+            presentationDisplays = displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION);
+            displays = presentationDisplays.length;
+
+        }
+        response.put("displays", displays);
+        call.resolve(response);
     }
 }
