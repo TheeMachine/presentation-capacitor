@@ -18,6 +18,7 @@ npx cap sync
 * [`addListener('onFailLoadUrl', ...)`](#addlisteneronfailloadurl)
 * [`getDisplays()`](#getdisplays)
 * [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
 
 </docgen-index>
 
@@ -27,12 +28,12 @@ npx cap sync
 ### openLink(...)
 
 ```typescript
-openLink(options: { url: string; }) => Promise<{ success?: any; error?: any; url?: any; }>
+openLink(options: OpenLinkOptions) => Promise<{ success?: any; error?: any; url?: any; }>
 ```
 
-| Param         | Type                          |
-| ------------- | ----------------------------- |
-| **`options`** | <code>{ url: string; }</code> |
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#openlinkoptions">OpenLinkOptions</a></code> |
 
 **Returns:** <code>Promise&lt;{ success?: any; error?: any; url?: any; }&gt;</code>
 
@@ -90,5 +91,13 @@ getDisplays() => Promise<{ displays: number; }>
 | Prop         | Type                                      |
 | ------------ | ----------------------------------------- |
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
+
+
+### Type Aliases
+
+
+#### OpenLinkOptions
+
+<code>{url: string, htmlStrings?: string} | {htmlStrings: string, url?: string}</code>
 
 </docgen-api>
