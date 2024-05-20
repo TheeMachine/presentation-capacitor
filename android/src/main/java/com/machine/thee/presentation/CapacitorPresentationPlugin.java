@@ -2,6 +2,7 @@ package com.machine.thee.presentation;
 
 import android.content.Context;
 import android.hardware.display.DisplayManager;
+import android.net.Uri;
 import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,9 +31,24 @@ public class CapacitorPresentationPlugin extends Plugin {
     @PluginMethod
     public void openLink(PluginCall call) {
         String url = call.getString("url");
+        String htmlStrings = call.getString("htmlStrings");
+        PresentationType presentationType = new PresentationType();
+        if(url == null) {
+            presentationType.path = htmlStrings;
+            presentationType.urlType = UrlType.html;
+        } else {
+            if(!url.startsWith("https://") && !url.startsWith("http://")) {
+                presentationType.urlType = UrlType.local;
+                presentationType.path = url;
+            } else {
+                presentationType.urlType = UrlType.remote;
+                presentationType.path = url;
+            }
+        }
 
         JSObject ret = new JSObject();
         ret.put("url", url);
+        ret.put("htmlStrings", htmlStrings);
         new Handler(Looper.getMainLooper())
             .post(
                 () -> {
@@ -42,7 +58,7 @@ public class CapacitorPresentationPlugin extends Plugin {
                         if (presentationDisplays.length > 0) {
                             Log.d("presentationDisplays", String.valueOf(presentationDisplays[0]));
                             SecondaryDisplay secondaryDisplay = new SecondaryDisplay(getContext(), presentationDisplays[0]);
-                            secondaryDisplay.loadUrl(url);
+                            secondaryDisplay.loadUrl(presentationType);
                             Log.d("-> SecondaryDisplay", "Çalışıyor...");
                             secondaryDisplay.show();
                         }

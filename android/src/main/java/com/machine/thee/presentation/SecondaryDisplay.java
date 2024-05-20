@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -22,7 +23,7 @@ public class SecondaryDisplay extends Presentation {
 
     CapacitorPresentationPlugin capPlugin = new CapacitorPresentationPlugin();
 
-    protected String url = "";
+    protected PresentationType presentationType;
 
     public SecondaryDisplay(Context outerContext, Display display) {
         super(outerContext, display);
@@ -40,24 +41,16 @@ public class SecondaryDisplay extends Presentation {
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
-        webSettings.setAppCacheEnabled(true);
         webSettings.setAllowContentAccess(true);
         webSettings.setAllowFileAccess(true);
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        String path = url;
-        /*
-        if(!url.startsWith("https://")) {
-            path = Uri.parse("file:///android_asset/public/index.html?route=" + url).toString();
-        } else {
-            path = url;
-        }
-         */
+        String path;
+        webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String _url) {
                 capPlugin.notifyToSuccess(webView, _url);
             }
-
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -67,11 +60,20 @@ public class SecondaryDisplay extends Presentation {
                 }
             }
         });
-        webView.loadDataWithBaseURL(null, path, "text/html", "UTF-8", null);
+        if(!this.presentationType.path.startsWith("https://") && !this.presentationType.path.startsWith("http://")) {
+            if(presentationType.urlType == UrlType.local) {
+                path = Uri.parse("file:///android_asset/public/index.html?route=" + this.presentationType.path).toString();
+                webView.loadUrl(path);
+                return;
+            }
+            webView.loadDataWithBaseURL(null, presentationType.path, "text/html", "UTF-8", null);
+        } else {
+            path = this.presentationType.path;
+            webView.loadUrl(path);
+        }
     }
 
-    public void loadUrl(String url) {
-       this.url = url;
-
+    public void loadUrl(PresentationType presentationType) {
+        this.presentationType = presentationType;
     }
 }
