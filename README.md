@@ -9,15 +9,21 @@ npm install presentation-capacitor
 npx cap sync
 ```
 
+### Example Video 
+
+https://github.com/TheeMachine/presentation-capacitor/blob/version-0.1.0/records/example-record.mp4
+
 ## API
 
 <docgen-index>
 
 * [`openLink(...)`](#openlink)
-* [`addListener('onSuccessLoadUrl', ...)`](#addlisteneronsuccessloadurl)
-* [`addListener('onFailLoadUrl', ...)`](#addlisteneronfailloadurl)
+* [`open(...)`](#open)
+* [`addListener('onSuccessLoadUrl', ...)`](#addlisteneronsuccessloadurl-)
+* [`addListener('onFailLoadUrl', ...)`](#addlisteneronfailloadurl-)
 * [`getDisplays()`](#getdisplays)
 * [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
 
 </docgen-index>
 
@@ -27,14 +33,29 @@ npx cap sync
 ### openLink(...)
 
 ```typescript
-openLink(options: { url: string; }) => Promise<{ success?: any; error?: any; url?: any; }>
+openLink(options: OpenLinkOptions) => Promise<OpenResponse>
 ```
 
-| Param         | Type                          |
-| ------------- | ----------------------------- |
-| **`options`** | <code>{ url: string; }</code> |
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#openlinkoptions">OpenLinkOptions</a></code> |
 
-**Returns:** <code>Promise&lt;{ success?: any; error?: any; url?: any; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#openresponse">OpenResponse</a>&gt;</code>
+
+--------------------
+
+
+### open(...)
+
+```typescript
+open(options: OpenOptions) => Promise<OpenResponse>
+```
+
+| Param         | Type                                                |
+| ------------- | --------------------------------------------------- |
+| **`options`** | <code><a href="#openoptions">OpenOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#openresponse">OpenResponse</a>&gt;</code>
 
 --------------------
 
@@ -42,15 +63,15 @@ openLink(options: { url: string; }) => Promise<{ success?: any; error?: any; url
 ### addListener('onSuccessLoadUrl', ...)
 
 ```typescript
-addListener(eventName: 'onSuccessLoadUrl', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'onSuccessLoadUrl', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> | PluginListenerHandle
 ```
 
-| Param              | Type                                |
-| ------------------ | ----------------------------------- |
-| **`eventName`**    | <code>'onSuccessLoadUrl'</code>     |
-| **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
+| Param              | Type                                | Description                                             |
+| ------------------ | ----------------------------------- | ------------------------------------------------------- |
+| **`eventName`**    | <code>'onSuccessLoadUrl'</code>     |                                                         |
+| **`listenerFunc`** | <code>(data: any) =&gt; void</code> | &lt;br&gt; Works only if type html of url or if browser |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code><a href="#pluginlistenerhandle">PluginListenerHandle</a> | Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -58,7 +79,7 @@ addListener(eventName: 'onSuccessLoadUrl', listenerFunc: (data: any) => void) =>
 ### addListener('onFailLoadUrl', ...)
 
 ```typescript
-addListener(eventName: 'onFailLoadUrl', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> & PluginListenerHandle
+addListener(eventName: 'onFailLoadUrl', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> | PluginListenerHandle
 ```
 
 | Param              | Type                                |
@@ -66,7 +87,7 @@ addListener(eventName: 'onFailLoadUrl', listenerFunc: (data: any) => void) => Pr
 | **`eventName`**    | <code>'onFailLoadUrl'</code>        |
 | **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
 
-**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt; & <a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+**Returns:** <code><a href="#pluginlistenerhandle">PluginListenerHandle</a> | Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -90,5 +111,23 @@ getDisplays() => Promise<{ displays: number; }>
 | Prop         | Type                                      |
 | ------------ | ----------------------------------------- |
 | **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
+
+
+### Type Aliases
+
+
+#### OpenResponse
+
+<code>{ success?: any; error?: any; url?: any }</code>
+
+
+#### OpenLinkOptions
+
+<code>{ url: string; htmlStrings?: string } | { htmlStrings: string; url?: string }</code>
+
+
+#### OpenOptions
+
+<code>{} & ( | { type: 'url'; url: string; } | { type: 'video'; videoOptions: { videoUrl: string; showControls?: boolean; }; } | { type: 'html'; html: string; } )</code>
 
 </docgen-api>

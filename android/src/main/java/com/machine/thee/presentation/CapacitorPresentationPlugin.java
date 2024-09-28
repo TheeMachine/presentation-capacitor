@@ -2,85 +2,145 @@ package com.machine.thee.presentation;
 
 import android.content.Context;
 import android.hardware.display.DisplayManager;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.Display;
 import android.webkit.WebView;
-import android.widget.EditText;
-import android.widget.LinearLayout;
+
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import java.util.Arrays;
 
+import java.util.Locale;
+import java.util.Objects;
+
+
+interface DisplayCallback {
+  void onDisplayReady(SecondaryDisplay display);
+}
 @CapacitorPlugin(name = "CapacitorPresentation")
 public class CapacitorPresentationPlugin extends Plugin {
 
-    private final CapacitorPresentation implementation = new CapacitorPresentation();
-    public DisplayManager displayManager = null;
-    public Display[] presentationDisplays = null;
+  private final CapacitorPresentation implementation = new CapacitorPresentation();
+  public DisplayManager displayManager = null;
+  public Display[] presentationDisplays = null;
 
-    final String SUCCESS_CALL_BACK = "onSuccessLoadUrl";
-    final String FAIL_CALL_BACK = "onFailLoadUrl";
+  final String SUCCESS_CALL_BACK = "onSuccessLoadUrl";
+  final String FAIL_CALL_BACK = "onFailLoadUrl";
 
-    @PluginMethod
-    public void openLink(PluginCall call) {
-        String url = call.getString("url");
+  @PluginMethod
+  public void openLink(PluginCall call) {
+    String url = call.getString("url");
+    OpenType type = getResultType(call.getString("type"));
 
-        JSObject ret = new JSObject();
-        ret.put("url", url);
-        new Handler(Looper.getMainLooper())
-            .post(
-                () -> {
-                    displayManager = (DisplayManager) getActivity().getSystemService(Context.DISPLAY_SERVICE);
-                    if (displayManager != null) {
-                        presentationDisplays = displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION);
-                        if (presentationDisplays.length > 0) {
-                            Log.d("presentationDisplays", String.valueOf(presentationDisplays[0]));
-                            SecondaryDisplay secondaryDisplay = new SecondaryDisplay(getContext(), presentationDisplays[0]);
-                            secondaryDisplay.loadUrl(url);
-                            Log.d("-> SecondaryDisplay", "Çalışıyor...");
-                            secondaryDisplay.show();
-                        }
-                    }
-                }
-            );
+    JSObject ret = new JSObject();
+    ret.put("url", url);
 
-        call.resolve(ret);
+    openSecondDisplay(display -> {
+      if(display != null) {
+        display.init(Objects.requireNonNull(type), url);
+      }
+    });
+    call.resolve(ret);
+  }
+
+  private OpenType getResultType(String resultType) {
+    if (resultType == null) {
+      return OpenType.URL;
     }
-
-    public void notifyToSuccess(WebView view, String url) {
-        JSObject response = new JSObject();
-        response.put("url", url);
-        response.put("message", "success");
-        notifyListeners(SUCCESS_CALL_BACK, response, true);
+    try {
+      return OpenType.valueOf(resultType.toUpperCase(Locale.ROOT));
+    } catch (IllegalArgumentException ex) {
+      Logger.debug(getLogTag(), "Invalid result type \"" + resultType + "\", defaulting to base64");
+      return OpenType.URL;
     }
+  }
 
-    public void notifyToFail(WebView view, int errorCode) {
-        JSObject response = new JSObject();
-        response.put("url", errorCode);
-        response.put("message", "fail");
-        notifyListeners(FAIL_CALL_BACK, response, true);
-    }
-
-    @PluginMethod
-    public void getDisplays(PluginCall call) {
-
-        displayManager = (DisplayManager) getActivity().getSystemService(Context.DISPLAY_SERVICE);
-        JSObject response = new JSObject();
-        int displays = 0;
-
-        if (displayManager != null) {
-
-            presentationDisplays = displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION);
-            displays = presentationDisplays.length;
+  @PluginMethod
+  public void open(PluginCall call) {
+    OpenType type = getResultType(call.getString("type"));
+    JSObject ret = new JSObject();
+    openSecondDisplay(display -> {
+      try {
+        Object data = null;
+        switch (type) {
+          case URL:
+            data = call.getString("url", null);
+            break;
+          case HTML:
+            data = call.getString("html", null);
+            break;
+          case VIDEO:
+            data = new VideoOptions(call.getObject("videoOptions").getString("videoUrl"), (Boolean.TRUE.equals(call.getBoolean("showControls"))));
+            break;
 
         }
-        response.put("displays", displays);
-        call.resolve(response);
+        if(display != null) {
+          display.show();
+          if(type == OpenType.VIDEO) {
+            display.init(type, (VideoOptions) data);
+          } else {
+            display.init(type,(String) data);
+          }
+        }
+        ret.put("result", data);
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+    });
+    call.resolve(ret);
+  }
+
+
+  private void openSecondDisplay(DisplayCallback callback) {
+    new Handler(Looper.getMainLooper()).post(() -> {
+      displayManager = (DisplayManager) getActivity().getSystemService(Context.DISPLAY_SERVICE);
+      if (displayManager != null) {
+        presentationDisplays = displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION);
+        if (presentationDisplays.length > 0) {
+          Log.d("presentationDisplays", String.valueOf(presentationDisplays[0]));
+          SecondaryDisplay display = new SecondaryDisplay(getContext(), presentationDisplays[0]);
+          // Callback ile sonucu döndür
+          callback.onDisplayReady(display);
+        }
+      }
+    });
+  }
+
+  public void notifyToSuccess(WebView view, String url) {
+    JSObject response = new JSObject();
+    response.put("url", url);
+    response.put("message", "success");
+    notifyListeners(SUCCESS_CALL_BACK, response, true);
+  }
+
+  public void notifyToFail(WebView view, int errorCode) {
+    JSObject response = new JSObject();
+    response.put("url", errorCode);
+    response.put("message", "fail");
+    notifyListeners(FAIL_CALL_BACK, response, true);
+  }
+
+  @PluginMethod
+  public void getDisplays(PluginCall call) {
+
+    displayManager = (DisplayManager) getActivity().getSystemService(Context.DISPLAY_SERVICE);
+    JSObject response = new JSObject();
+    int displays = 0;
+
+    if (displayManager != null) {
+
+      presentationDisplays = displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION);
+      displays = presentationDisplays.length;
+
     }
+    response.put("displays", displays);
+    call.resolve(response);
+  }
+
+
 }

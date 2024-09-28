@@ -1,6 +1,6 @@
 {
   "name": "presentation-capacitor",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Capacitor Plugin for presentation api",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -28,7 +28,13 @@
     "presentation",
     "presentation api",
     "presentation api android",
-    "second screen presentation"
+    "second screen presentation",
+    "android presentation",
+    "android cast",
+    "capacitor cast",
+    "capacitor cast android",
+    "capacitor cast browser",
+    "browser cast"
   ],
   "scripts": {
     "verify": "npm run verify:android && npm run verify:web",
@@ -45,20 +51,20 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@capacitor/android": "^4.0.0",
-    "@capacitor/core": "^4.0.0",
-    "@capacitor/docgen": "^0.0.18",
-    "@ionic/eslint-config": "^0.3.0",
-    "@ionic/prettier-config": "^1.0.1",
-    "eslint": "^7.11.0",
-    "prettier": "~2.3.0",
-    "prettier-plugin-java": "~1.0.2",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/docgen": "^0.2.2",
+    "@capacitor/ios": "^6.0.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-java": "^2.6.4",
     "rimraf": "^3.0.2",
     "rollup": "^2.32.0",
+    "swiftlint": "^1.0.1",
     "typescript": "~4.1.5"
   },
   "peerDependencies": {
-    "@capacitor/core": "^4.0.0"
+    "@capacitor/core": "^6.0.0"
   },
   "prettier": "@ionic/prettier-config",
   "eslintConfig": {
