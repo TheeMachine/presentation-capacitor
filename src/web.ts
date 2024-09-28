@@ -1,35 +1,8 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { CapacitorPresentationPlugin, OpenLinkOptions, OpenOptions, OpenResponse } from './definitions';
+import type { CapacitorPresentationPlugin, OpenOptions, OpenResponse } from './definitions';
 
 export class CapacitorPresentationWeb extends WebPlugin implements CapacitorPresentationPlugin {
-  /**
-   *
-   * @param options
-   * @returns
-   * @deprecated
-   */
-  async openLink(options: OpenLinkOptions): Promise<{ success?: any; error?: any }> {
-    if (!options.url)
-      return {
-        error: 'URL is required',
-      };
-
-    try {
-      const presentationRequest = new (window as any).PresentationRequest([options.url]);
-      const start = await presentationRequest.start();
-      this.notifyListeners('onSuccessLoadUrl', start);
-      return {
-        success: start,
-      };
-    } catch (error) {
-      console.log(error);
-      this.notifyListeners('onFailLoadUrl', error);
-      return {
-        error: error,
-      };
-    }
-  }
 
   async open(options: OpenOptions): Promise<OpenResponse> {
     try {
@@ -58,6 +31,7 @@ export class CapacitorPresentationWeb extends WebPlugin implements CapacitorPres
       this.notifyListeners('onFailLoadUrl', error);
       return {
         error: error,
+        result: options
       };
     }
   }

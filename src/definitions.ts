@@ -1,14 +1,6 @@
 import { PluginListenerHandle } from '@capacitor/core';
 
 export interface CapacitorPresentationPlugin {
-  /**
-   *
-   * @param options
-   * @param url works only web
-   * @param htmlStrings works only android
-   * @deprecated use open instead
-   */
-  openLink(options: OpenLinkOptions): Promise<OpenResponse>;
   open(options: OpenOptions): Promise<OpenResponse>;
 
   /**
@@ -30,11 +22,6 @@ export interface CapacitorPresentationPlugin {
   getDisplays(): Promise<{ displays: number }>;
 }
 
-/**
- * @deprecated use openOptions
- */
-export type OpenLinkOptions = { url: string; htmlStrings?: string } | { htmlStrings: string; url?: string };
-
 export type OpenOptions = {} & (
   | {
       type: 'url';
@@ -53,4 +40,4 @@ export type OpenOptions = {} & (
     }
 );
 
-export type OpenResponse = { success?: any; error?: any; url?: any };
+export type OpenResponse = { success?: any; error?: any; result?: any };

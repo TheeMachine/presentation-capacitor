@@ -113,14 +113,14 @@ public class CapacitorPresentationPlugin extends Plugin {
 
   public void notifyToSuccess(WebView view, String url) {
     JSObject response = new JSObject();
-    response.put("url", url);
+    response.put("result", url);
     response.put("message", "success");
     notifyListeners(SUCCESS_CALL_BACK, response, true);
   }
 
   public void notifyToFail(WebView view, int errorCode) {
     JSObject response = new JSObject();
-    response.put("url", errorCode);
+    response.put("result", errorCode);
     response.put("message", "fail");
     notifyListeners(FAIL_CALL_BACK, response, true);
   }

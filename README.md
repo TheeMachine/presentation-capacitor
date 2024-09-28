@@ -1,7 +1,7 @@
 # Presentation API Capacitor Plugin
 This Capacitor plugin provides seamless integration with the Presentation API, enabling developers to display content on secondary screens, such as projectors or external displays, directly from their mobile and web applications.
 
-Features
+## Features
 * **Multiple Screen Support:** Easily present content on external displays or projectors.
 * **Customizable Content:** Display custom HTML, videos, or other types of media.
 * **Cross-Platform Compatibility:** Works on Android and web platforms.
@@ -118,7 +118,7 @@ getDisplays() => Promise<{ displays: number; }>
 
 #### OpenResponse
 
-<code>{ success?: any; error?: any; url?: any }</code>
+<code>{ success?: any; error?: any; result?: any }</code>
 
 
 #### OpenOptions
