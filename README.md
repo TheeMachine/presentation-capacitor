@@ -11,7 +11,11 @@ npx cap sync
 
 ### Example Video 
 
-https://github.com/TheeMachine/presentation-capacitor/blob/version-0.1.0/records/example-record.mp4
+
+https://github.com/user-attachments/assets/a2dbb1f7-6075-4285-885d-39136bc90d9b
+
+
+
 
 ## API
 
