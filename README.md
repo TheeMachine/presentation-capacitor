@@ -27,7 +27,6 @@ https://github.com/user-attachments/assets/a2dbb1f7-6075-4285-885d-39136bc90d9b
 
 <docgen-index>
 
-* [`openLink(...)`](#openlink)
 * [`open(...)`](#open)
 * [`addListener('onSuccessLoadUrl', ...)`](#addlisteneronsuccessloadurl-)
 * [`addListener('onFailLoadUrl', ...)`](#addlisteneronfailloadurl-)
@@ -39,21 +38,6 @@ https://github.com/user-attachments/assets/a2dbb1f7-6075-4285-885d-39136bc90d9b
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
-
-### openLink(...)
-
-```typescript
-openLink(options: OpenLinkOptions) => Promise<OpenResponse>
-```
-
-| Param         | Type                                                        |
-| ------------- | ----------------------------------------------------------- |
-| **`options`** | <code><a href="#openlinkoptions">OpenLinkOptions</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#openresponse">OpenResponse</a>&gt;</code>
-
---------------------
-
 
 ### open(...)
 
@@ -129,11 +113,6 @@ getDisplays() => Promise<{ displays: number; }>
 #### OpenResponse
 
 <code>{ success?: any; error?: any; url?: any }</code>
-
-
-#### OpenLinkOptions
-
-<code>{ url: string; htmlStrings?: string } | { htmlStrings: string; url?: string }</code>
 
 
 #### OpenOptions
