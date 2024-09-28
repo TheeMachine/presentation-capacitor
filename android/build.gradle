@@ -18,6 +18,7 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
+    namespace "com.machine.thee.presentation"
     compileSdkVersion project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 32
     defaultConfig {
         minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 22
@@ -56,4 +57,5 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
 }
