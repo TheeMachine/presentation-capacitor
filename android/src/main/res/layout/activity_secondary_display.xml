@@ -6,9 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".SecondaryDisplay">
 
-    <WebView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/secondary_webview"
-        />
+  <VideoView
+    android:id="@+id/videoView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:layout_centerInParent="true" />
+
+  <WebView
+    android:id="@+id/secondary_webview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible">
+
+  </WebView>
 </androidx.constraintlayout.widget.ConstraintLayout>
