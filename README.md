@@ -4,6 +4,12 @@ Capacitor Plugin for presentation api
 
 ## Install
 
+| Capacitor Version |Presentation Version|
+| ------------- | ----------------------------------------------------------- |
+| Capacitor v4  |  0.0.5|
+| Capacitor v6  |  0.1.x|
+
+
 ```bash
 npm install presentation-capacitor
 npx cap sync
