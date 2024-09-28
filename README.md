@@ -1,6 +1,12 @@
-# presentation-capacitor
+# Presentation API Capacitor Plugin
+This Capacitor plugin provides seamless integration with the Presentation API, enabling developers to display content on secondary screens, such as projectors or external displays, directly from their mobile and web applications.
 
-Capacitor Plugin for presentation api
+Features
+* **Multiple Screen Support:** Easily present content on external displays or projectors.
+* **Customizable Content:** Display custom HTML, videos, or other types of media.
+* **Cross-Platform Compatibility:** Works on Android and web platforms.
+* **Simple Integration:** Easily integrate with Capacitor and your existing project.
+* **Real-Time Updates:** Send real-time content updates to the external screen.
 
 ## Install
 
@@ -15,7 +21,7 @@ npm install presentation-capacitor
 npx cap sync
 ```
 
-### Example Video 
+### Example Video (Example App included in repo)
 
 
 https://github.com/user-attachments/assets/a2dbb1f7-6075-4285-885d-39136bc90d9b
