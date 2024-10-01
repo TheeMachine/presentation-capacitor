@@ -1,7 +1,7 @@
-import { PluginListenerHandle } from '@capacitor/core';
 
 export interface CapacitorPresentationPlugin {
   open(options: OpenOptions): Promise<OpenResponse>;
+  sendMessage<T>(message: T): Promise<T>;
 
   /**
    *
@@ -13,11 +13,17 @@ export interface CapacitorPresentationPlugin {
   addListener(
     eventName: 'onSuccessLoadUrl',
     listenerFunc: (data: any) => void,
-  ): Promise<PluginListenerHandle> | PluginListenerHandle;
+  ): any;
   addListener(
     eventName: 'onFailLoadUrl',
     listenerFunc: (data: any) => void,
-  ): Promise<PluginListenerHandle> | PluginListenerHandle;
+  ): any;
+
+  
+  addListener(
+    eventName: 'onMessage',
+    listenerFunc: (data: any) => void,
+  ): any;
 
   getDisplays(): Promise<{ displays: number }>;
 }

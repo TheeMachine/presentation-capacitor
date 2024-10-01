@@ -1,6 +1,6 @@
 {
   "name": "presentation-capacitor",
-  "version": "0.1.1",
+  "version": "0.1.2-alpha",
   "description": "Capacitor Plugin for presentation api",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",

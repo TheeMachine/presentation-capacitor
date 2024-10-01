@@ -3,12 +3,9 @@ package com.machine.thee.presentation;
 import android.annotation.SuppressLint;
 import android.app.Presentation;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -17,20 +14,11 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
-
-import androidx.annotation.RequiresApi;
-
-import com.getcapacitor.CapacitorWebView;
-import com.getcapacitor.Logger;
-import com.getcapacitor.Plugin;
-
-import java.io.IOException;
 import java.util.Objects;
-import java.util.function.Function;
-
+import com.getcapacitor.JSObject;
+import java.io.IOException;
 
 public class SecondaryDisplay extends Presentation {
 
@@ -68,14 +56,15 @@ public class SecondaryDisplay extends Presentation {
       case URL:
       case HTML:
         url = (String) data;
-        this.startWebView(type);
+        this.startWebView(type, data);
         break;
     }
   }
 
   @SuppressLint("SetJavaScriptEnabled")
-  private void startWebView(OpenType type) {
+  private void startWebView(OpenType type, Object data) {
     if (webView != null) {
+//      webView.addJavascriptInterface(new MessageEvents(data), "presentationCapacitor");
       WebSettings webSettings = webView.getSettings();
       webSettings.setJavaScriptEnabled(true);
       webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
@@ -86,6 +75,7 @@ public class SecondaryDisplay extends Presentation {
       webSettings.setMediaPlaybackRequiresUserGesture(false);
       webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
       webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+
       String path = url;
 
       if (!url.startsWith("https://") && !url.startsWith("https://") && type != OpenType.HTML) {
@@ -106,18 +96,21 @@ public class SecondaryDisplay extends Presentation {
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             capPlugin.notifyToFail(webView, error.getErrorCode());
-          } else {
-            capPlugin.notifyToFail(webView, 400);
           }
         }
       });
       webView.setWebChromeClient(new WebChromeClient());
-      if(type == OpenType.HTML) {
+      if (type == OpenType.HTML) {
         webView.loadDataWithBaseURL(null, path, "text/html", "UTF-8", null);
       } else {
         webView.loadUrl(path);
       }
     }
+  }
+
+  public void sendMessage(JSObject jsonData) {
+    capPlugin.notifyListener(capPlugin.ON_MESSAGE_EVENT, jsonData);
+    webView.evaluateJavascript("javascript:window.receiveFromPresentationCapacitor(" + jsonData.toString() + ")", null);
   }
 
   private void startVideo(boolean showControls) {
@@ -128,7 +121,7 @@ public class SecondaryDisplay extends Presentation {
     Uri uri = Uri.parse(videoUrl);
     videoView.setVideoURI(uri);
 
-    if(showControls) {
+    if (showControls) {
       MediaController mediaController = new MediaController(this.getContext());
       mediaController.setAnchorView(videoView);
       videoView.setMediaController(mediaController);

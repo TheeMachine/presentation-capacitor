@@ -26,11 +26,13 @@ interface DisplayCallback {
 public class CapacitorPresentationPlugin extends Plugin {
 
   private final CapacitorPresentation implementation = new CapacitorPresentation();
+  private SecondaryDisplay display;
   public DisplayManager displayManager = null;
   public Display[] presentationDisplays = null;
 
   final String SUCCESS_CALL_BACK = "onSuccessLoadUrl";
   final String FAIL_CALL_BACK = "onFailLoadUrl";
+  final String ON_MESSAGE_EVENT = "onMessage";
 
   @PluginMethod
   public void openLink(PluginCall call) {
@@ -103,7 +105,7 @@ public class CapacitorPresentationPlugin extends Plugin {
         presentationDisplays = displayManager.getDisplays(DisplayManager.DISPLAY_CATEGORY_PRESENTATION);
         if (presentationDisplays.length > 0) {
           Log.d("presentationDisplays", String.valueOf(presentationDisplays[0]));
-          SecondaryDisplay display = new SecondaryDisplay(getContext(), presentationDisplays[0]);
+          display = new SecondaryDisplay(getContext(), presentationDisplays[0]);
           // Callback ile sonucu döndür
           callback.onDisplayReady(display);
         }
@@ -123,6 +125,18 @@ public class CapacitorPresentationPlugin extends Plugin {
     response.put("result", errorCode);
     response.put("message", "fail");
     notifyListeners(FAIL_CALL_BACK, response, true);
+  }
+
+  public void notifyListener(String tag,JSObject jsObject) {
+    notifyListeners(tag, jsObject, true);
+  }
+
+  @PluginMethod
+  public void sendMessage(PluginCall call) {
+      if(display != null) {
+        display.sendMessage(call.getObject("data"));
+      }
+
   }
 
   @PluginMethod

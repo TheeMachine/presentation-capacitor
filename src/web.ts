@@ -36,6 +36,11 @@ export class CapacitorPresentationWeb extends WebPlugin implements CapacitorPres
     }
   }
 
+  async sendMessage<T>(message: T): Promise<any> {
+    this.notifyListeners('onMessage', message);
+    return message
+  }
+
   private async startDisplay(data: string) {
     const presentationRequest = new (window as any).PresentationRequest([data]);
     return await presentationRequest.start();
