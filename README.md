@@ -34,10 +34,11 @@ https://github.com/user-attachments/assets/a2dbb1f7-6075-4285-885d-39136bc90d9b
 <docgen-index>
 
 * [`open(...)`](#open)
+* [`sendMessage(...)`](#sendmessage)
 * [`addListener('onSuccessLoadUrl', ...)`](#addlisteneronsuccessloadurl-)
 * [`addListener('onFailLoadUrl', ...)`](#addlisteneronfailloadurl-)
+* [`addListener('onMessage', ...)`](#addlisteneronmessage-)
 * [`getDisplays()`](#getdisplays)
-* [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
 </docgen-index>
@@ -60,10 +61,25 @@ open(options: OpenOptions) => Promise<OpenResponse>
 --------------------
 
 
+### sendMessage(...)
+
+```typescript
+sendMessage<T>(message: T) => Promise<T>
+```
+
+| Param         | Type           |
+| ------------- | -------------- |
+| **`message`** | <code>T</code> |
+
+**Returns:** <code>Promise&lt;T&gt;</code>
+
+--------------------
+
+
 ### addListener('onSuccessLoadUrl', ...)
 
 ```typescript
-addListener(eventName: 'onSuccessLoadUrl', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> | PluginListenerHandle
+addListener(eventName: 'onSuccessLoadUrl', listenerFunc: (data: any) => void) => any
 ```
 
 | Param              | Type                                | Description                                             |
@@ -71,7 +87,7 @@ addListener(eventName: 'onSuccessLoadUrl', listenerFunc: (data: any) => void) =>
 | **`eventName`**    | <code>'onSuccessLoadUrl'</code>     |                                                         |
 | **`listenerFunc`** | <code>(data: any) =&gt; void</code> | &lt;br&gt; Works only if type html of url or if browser |
 
-**Returns:** <code><a href="#pluginlistenerhandle">PluginListenerHandle</a> | Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -79,7 +95,7 @@ addListener(eventName: 'onSuccessLoadUrl', listenerFunc: (data: any) => void) =>
 ### addListener('onFailLoadUrl', ...)
 
 ```typescript
-addListener(eventName: 'onFailLoadUrl', listenerFunc: (data: any) => void) => Promise<PluginListenerHandle> | PluginListenerHandle
+addListener(eventName: 'onFailLoadUrl', listenerFunc: (data: any) => void) => any
 ```
 
 | Param              | Type                                |
@@ -87,7 +103,23 @@ addListener(eventName: 'onFailLoadUrl', listenerFunc: (data: any) => void) => Pr
 | **`eventName`**    | <code>'onFailLoadUrl'</code>        |
 | **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
 
-**Returns:** <code><a href="#pluginlistenerhandle">PluginListenerHandle</a> | Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+**Returns:** <code>any</code>
+
+--------------------
+
+
+### addListener('onMessage', ...)
+
+```typescript
+addListener(eventName: 'onMessage', listenerFunc: (data: any) => void) => any
+```
+
+| Param              | Type                                |
+| ------------------ | ----------------------------------- |
+| **`eventName`**    | <code>'onMessage'</code>            |
+| **`listenerFunc`** | <code>(data: any) =&gt; void</code> |
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -101,16 +133,6 @@ getDisplays() => Promise<{ displays: number; }>
 **Returns:** <code>Promise&lt;{ displays: number; }&gt;</code>
 
 --------------------
-
-
-### Interfaces
-
-
-#### PluginListenerHandle
-
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
 ### Type Aliases
