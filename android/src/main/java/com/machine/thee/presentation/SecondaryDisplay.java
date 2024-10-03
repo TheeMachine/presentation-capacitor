@@ -109,8 +109,10 @@ public class SecondaryDisplay extends Presentation {
   }
 
   public void sendMessage(JSObject jsonData) {
-    capPlugin.notifyListener(capPlugin.ON_MESSAGE_EVENT, jsonData);
-    webView.evaluateJavascript("javascript:window.receiveFromPresentationCapacitor(" + jsonData.toString() + ")", null);
+    webView.post(() -> {
+      capPlugin.notifyListener(capPlugin.ON_MESSAGE_EVENT, jsonData);
+      webView.evaluateJavascript("javascript:window.receiveFromPresentationCapacitor(" + jsonData.toString() + ")", null);
+    });
   }
 
   private void startVideo(boolean showControls) {
