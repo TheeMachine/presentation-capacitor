@@ -40,5 +40,9 @@ export class HomePage {
       html: HtmlExample
     })
   }
+
+  terminate() {
+    CapacitorPresentation.terminate()
+  }
 }
  

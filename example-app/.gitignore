@@ -1,7 +1,7 @@
 # node files
 dist
 node_modules
-www
+.angular
 # iOS files
 Pods
 Podfile.lock
