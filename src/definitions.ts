@@ -2,6 +2,7 @@
 export interface CapacitorPresentationPlugin {
   open(options: OpenOptions): Promise<OpenResponse>;
   sendMessage<T>(message: T): Promise<T>;
+  terminate(): Promise<void>;
 
   /**
    *

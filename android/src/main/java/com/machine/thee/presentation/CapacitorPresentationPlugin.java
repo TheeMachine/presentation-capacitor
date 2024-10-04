@@ -63,6 +63,11 @@ public class CapacitorPresentationPlugin extends Plugin {
   }
 
   @PluginMethod
+  public void terminate() {
+    display.dismiss();
+  }
+
+  @PluginMethod
   public void open(PluginCall call) {
     OpenType type = getResultType(call.getString("type"));
     JSObject ret = new JSObject();

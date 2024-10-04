@@ -35,6 +35,7 @@ https://github.com/user-attachments/assets/a2dbb1f7-6075-4285-885d-39136bc90d9b
 
 * [`open(...)`](#open)
 * [`sendMessage(...)`](#sendmessage)
+* [`terminate()`](#terminate)
 * [`addListener('onSuccessLoadUrl', ...)`](#addlisteneronsuccessloadurl-)
 * [`addListener('onFailLoadUrl', ...)`](#addlisteneronfailloadurl-)
 * [`addListener('onMessage', ...)`](#addlisteneronmessage-)
@@ -72,6 +73,15 @@ sendMessage<T>(message: T) => Promise<T>
 | **`message`** | <code>T</code> |
 
 **Returns:** <code>Promise&lt;T&gt;</code>
+
+--------------------
+
+
+### terminate()
+
+```typescript
+terminate() => Promise<void>
+```
 
 --------------------
 

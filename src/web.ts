@@ -65,6 +65,11 @@ export class CapacitorPresentationWeb extends WebPlugin implements CapacitorPres
     })
   }
 
+  async terminate() {
+    console.log(this.presentationConnection);
+    return this.presentationConnection?.terminate();
+  }
+
   async getDisplays(): Promise<{ displays: number }> {
     const presentationRequest = new (window as any).PresentationRequest(['']);
 
