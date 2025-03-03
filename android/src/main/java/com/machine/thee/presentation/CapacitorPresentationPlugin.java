@@ -63,7 +63,7 @@ public class CapacitorPresentationPlugin extends Plugin {
   }
 
   @PluginMethod
-  public void terminate() {
+  public void terminate(PluginCall call) {
     if(display == null) {
       return;
     }
